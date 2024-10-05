@@ -2,18 +2,17 @@ import { NextFunction, Request, Response } from "express";
 import httpStatus from "http-status";
 
 const globalErrorHandler = (
-  err: any,
+  err: any, // You can create a specific error type if you have one
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
-  const message = err.message || "Something went wrong!";
-  const statusCode = err.statusCode || httpStatus.INTERNAL_SERVER_ERROR;
+  const statusCode = err.status || httpStatus.INTERNAL_SERVER_ERROR;
+  const message = err.message || "Internal Server Error";
 
-  return res.status(statusCode).json({
+  res.status(statusCode).json({
     success: false,
     message,
-    error: err,
   });
 };
 

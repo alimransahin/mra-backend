@@ -10,7 +10,7 @@ NODE_ENV=development
 PORT=5000
 
 # MongoDB Database URL
-DATABASE_URL=mongodb+srv://rent-car:rent-car@cluster0.vgokw2y.mongodb.net/rentCar?retryWrites=true&w=majority&appName=Cluster0
+DATABASE_URL=mongodb+srv://mra:mra@cluster0.vgokw2y.mongodb.net/mra?retryWrites=true&w=majority&appName=Cluster0
 
 # Bcrypt Salt Rounds for password hashing
 BCRYPT_SALT_ROUNDS=12

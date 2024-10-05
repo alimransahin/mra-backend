@@ -25,6 +25,7 @@ const userSchema = new Schema<TUser>(
       required: true,
       select: 0,
     },
+
     phone: {
       type: String,
       required: true,
@@ -33,11 +34,19 @@ const userSchema = new Schema<TUser>(
       type: String,
       required: true,
     },
+    profilePicture: {
+      type: String,
+      default: "",
+    },
     isDeleted: {
       type: Boolean,
       default: false,
     },
     isBlock: {
+      type: Boolean,
+      default: false,
+    },
+    isVerified: {
       type: Boolean,
       default: false,
     },
@@ -76,4 +85,3 @@ userSchema.post("save", function (doc, next) {
 });
 
 export const User = model<TUser>("user", userSchema);
-// export const UserSignIn = model<TUserSignIn>("user", userSignInSchema);

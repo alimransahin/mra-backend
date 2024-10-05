@@ -1,38 +1,46 @@
 import { z } from "zod";
 import { user_role } from "./user.constants";
 
+//  create schema
 const createUserValidationSchema = z.object({
-  name: z.string().min(1, { message: "Name is required" }),
-  email: z.string().email({ message: "Invalid email address" }),
-  role: z
-    .nativeEnum(user_role)
-    .refine((val) => val === "user" || val === "admin", {
-      message: "Role must be 'user' or 'admin'",
-    })
-    .default(user_role.user),
+  name: z.string().trim().min(1, "Name is required"),
+  email: z.string().trim().email("Please enter a valid email"),
+  role: z.nativeEnum(user_role).default(user_role.user),
   password: z
     .string()
-    .min(6, { message: "Password must be at least 6 characters long" }),
-  phone: z.string().min(6, { message: "Phone must be at least 6 digits" }),
-  address: z.string().min(1, { message: "Address is required" }),
-  isDeleted: z.boolean().optional(),
-  isBlock: z.boolean().optional(),
+    .trim()
+    .min(6, "Password must be at least 6 characters long"),
+  phone: z.string().trim().min(10, "Please enter a valid phone number"),
+  address: z.string().trim().min(1, "Address is required"),
+  profilePicture: z.string().optional(),
+  isDeleted: z.boolean().default(false),
+  isBlock: z.boolean().default(false),
+  isVerified: z.boolean().default(false),
 });
+
+//  update schema
 const updateUserValidationSchema = z.object({
-  name: z.string().optional(),
-  email: z.string().optional(),
-  role: z
-    .nativeEnum(user_role)
-    .refine((val) => val === "user" || val === "admin", {
-      message: "Role must be 'user' or 'admin'",
-    })
+  name: z.string().trim().min(1, "Name is required").optional(),
+  email: z.string().trim().email("Please enter a valid email").optional(),
+  role: z.nativeEnum(user_role).optional(),
+  password: z
+    .string()
+    .trim()
+    .min(6, "Password must be at least 6 characters long")
     .optional(),
-  password: z.string().optional(),
-  phone: z.string().optional(),
-  address: z.string().optional(),
+  phone: z
+    .string()
+    .trim()
+    .min(10, "Please enter a valid phone number")
+    .optional(),
+  address: z.string().trim().min(1, "Address is required").optional(),
+  profilePicture: z.string().optional(),
   isDeleted: z.boolean().optional(),
   isBlock: z.boolean().optional(),
+  isVerified: z.boolean().optional(),
 });
+
+//  sign in
 const signInUserValidationSchema = z.object({
   email: z.string().email({ message: "Invalid email address" }),
   password: z.string(),

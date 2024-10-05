@@ -1,12 +1,11 @@
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 import httpStatus from "http-status";
 
-const notFound = (req: Request, res: Response) => {
-  return res.status(httpStatus.NOT_FOUND).json({
+const notFound = (req: Request, res: Response, next: NextFunction) => {
+  res.status(httpStatus.NOT_FOUND).json({
     success: false,
-    statusCode: httpStatus.NOT_FOUND,
-    message: "API Not Found!",
-    data: [],
+    message: "Resource not found",
   });
 };
+
 export default notFound;
