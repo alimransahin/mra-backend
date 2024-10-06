@@ -5,6 +5,7 @@ export type TUser = {
   email: string;
   role: keyof typeof user_role;
   password: string;
+  newPassword?: string;
   phone: string;
   address: string;
   profilePicture: string;

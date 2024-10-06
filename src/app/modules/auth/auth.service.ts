@@ -79,4 +79,22 @@ const signIn = async (payload: TUser): Promise<any> => {
   };
 };
 
-export const authService = { signUp, signIn };
+const changePassword = async (payload: TUser): Promise<any> => {
+  const user = await User.findOne({ email: [payload.email] }).select(
+    "+password"
+  );
+  if (!user) {
+    throw new AppError(httpStatus.NOT_FOUND, "User Not Found!");
+  }
+
+  if (!(await isPasswordMAtched(payload.password, user.password))) {
+    throw new AppError(httpStatus.CONFLICT, "Old password is incorrect");
+  }
+
+  payload.newPassword && (user.password = payload.newPassword);
+  await user.save();
+
+  return "Password updated successfully";
+};
+
+export const authService = { signUp, signIn, changePassword };

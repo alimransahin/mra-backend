@@ -42,7 +42,19 @@ const signIn = catchAsync(async (req, res) => {
     },
   });
 });
+
+// password change
+const changePassword = catchAsync(async (req, res) => {
+  const result = await authService.changePassword(req.body);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Password changed successfully",
+    data: { result },
+  });
+});
 export const authController = {
   signIn,
   signUp,
+  changePassword,
 };
