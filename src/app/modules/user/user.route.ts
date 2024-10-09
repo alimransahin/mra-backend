@@ -11,10 +11,7 @@ router.post(
   validateRequest(userValidation.createUserValidationSchema),
   UserController.createUser
 );
-// router.post(
-//   "/signin",
-//   validateRequest(userValidation.signInUserValidationSchema)
-// );
+
 router.get("/", UserController.getAllUser);
 router.put(
   "/update-profile/:id",
@@ -23,4 +20,5 @@ router.put(
 );
 router.get("/:email", UserController.getUserProfile);
 router.put("/:id", auth(user_role.admin), UserController.userRoleUpdate);
+router.post("/:id", UserController.makePayment);
 export const UserRoutes = router;

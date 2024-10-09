@@ -77,10 +77,21 @@ const userRoleUpdate = catchAsync(async (req, res) => {
     data: result,
   });
 });
+const makePayment = catchAsync(async (req, res) => {
+  const result = await userService.makePayment(req, res);
+  console.log(result);
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Payment Successfull",
+    data: result,
+  });
+});
 export const UserController = {
   createUser,
   updateUser,
   getAllUser,
   getUserProfile,
   userRoleUpdate,
+  makePayment,
 };
