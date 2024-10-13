@@ -7,6 +7,7 @@ import { isPasswordMAtched } from "./auth.utils";
 import jwt from "jsonwebtoken";
 import { createToken, verifyToken } from "../utils/verifyJWT";
 import { sentEmail } from "../utils/sentEmail";
+import { Activity } from "../activity/activity.model";
 
 const signUp = async (payload: TUser): Promise<any> => {
   const user = await User.findOne({ email: [payload.email] });
@@ -73,7 +74,7 @@ const signIn = async (payload: TUser): Promise<any> => {
     config.jwt_refresh_secret as string,
     config.jwt_refresh_expire_in as string
   );
-
+  const login = await Activity.create({ userId: user._id });
   return {
     accessToken,
     refreshToken,

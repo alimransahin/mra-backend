@@ -18,6 +18,7 @@ router.put(
   validateRequest(userValidation.updateUserValidationSchema),
   UserController.updateUser
 );
+router.put("/update-status/:id", UserController.updateUserStatus);
 router.put(
   "/follow/:id",
   // validateRequest(userValidation.updateUserValidationSchema),

@@ -32,6 +32,26 @@ const updateUserIntoDB = async (id: string, payload: Partial<TUser>) => {
 
   return result;
 };
+const updateUserStatusIntoDB = async (userId: string, payload: string) => {
+  const findUser = await User.findOne({ _id: userId });
+  if (!findUser) {
+    return { success: false, message: " User not found" };
+  }
+  let result;
+  if (payload === "admin") {
+    result = findUser.role = "admin";
+  } else if (payload === "user") {
+    result = findUser.role = "user";
+  } else if (payload === "delete") {
+    result = findUser.isDeleted = true;
+  } else if (payload === "block") {
+    result = findUser.isBlock = !findUser.isBlock;
+  } else {
+    return "some thing want wrong";
+  }
+  await findUser.save();
+  return result;
+};
 
 const updateFollowIntoDB = async (_id: string, userId: string) => {
   const findAuthor = await User.findOne({ _id });
@@ -159,4 +179,5 @@ export const userService = {
   getSingleUserFromDB,
   roleUpdate,
   makePayment,
+  updateUserStatusIntoDB,
 };

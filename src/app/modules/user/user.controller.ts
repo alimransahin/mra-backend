@@ -34,6 +34,27 @@ const updateUser = catchAsync(async (req, res) => {
     data: result,
   });
 });
+const updateUserStatus = catchAsync(async (req, res) => {
+  const { action } = req.body;
+  const result = await userService.updateUserStatusIntoDB(
+    req.params.id,
+    action
+  );
+  if (!result || (Array.isArray(result) && result.length === 0)) {
+    return sendResponse(res, {
+      statusCode: httpStatus.NOT_FOUND,
+      success: false,
+      message: "No user found",
+      data: [],
+    });
+  }
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "A User Profile Update successfully",
+    data: result,
+  });
+});
 const followUser = catchAsync(async (req, res) => {
   const result = await userService.updateFollowIntoDB(
     req.params.id,
@@ -106,4 +127,5 @@ export const UserController = {
   userRoleUpdate,
   makePayment,
   followUser,
+  updateUserStatus,
 };

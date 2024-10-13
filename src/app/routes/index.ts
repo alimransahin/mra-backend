@@ -4,6 +4,7 @@ import { AuthRoutes } from "../modules/auth/auth.route";
 import { UserRoutes } from "../modules/user/user.route";
 import { VoteRoutes } from "../modules/Vote/vote.route";
 import { CommentRoutes } from "../modules/Comment/comment.route";
+import { ActivityRoutes } from "../modules/activity/activity.router";
 
 const router = Router();
 const moduleRoutes = [
@@ -26,6 +27,10 @@ const moduleRoutes = [
   {
     path: "/vote",
     route: VoteRoutes,
+  },
+  {
+    path: "/activity",
+    route: ActivityRoutes,
   },
 ];
 

@@ -81,11 +81,22 @@ userSchema.pre("save", async function (next) {
       Number(config.bcrypt_salt_rounds)
     );
   }
-
   next();
 });
 userSchema.post("save", function (doc, next) {
   doc.password = "";
+  next();
+});
+userSchema.pre("find", function (next) {
+  this.find({ isDeleted: { $ne: true } });
+  next();
+});
+userSchema.pre("findOne", function (next) {
+  this.find({ isDeleted: { $ne: true } });
+  next();
+});
+userSchema.pre("aggregate", function (next) {
+  this.pipeline().unshift({ $match: { isDeleted: { $ne: true } } });
   next();
 });
 
