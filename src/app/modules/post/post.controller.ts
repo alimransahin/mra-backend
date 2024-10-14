@@ -2,6 +2,7 @@ import httpStatus from "http-status";
 import catchAsync from "../utils/catchAsync";
 import sendResponse from "../utils/sendResponse";
 import { postService } from "./post.service";
+import { IPostQuery } from "./post.interface";
 
 const createPost = catchAsync(async (req, res) => {
   const postData = req.body;
@@ -10,19 +11,11 @@ const createPost = catchAsync(async (req, res) => {
     statusCode: httpStatus.CREATED,
     success: true,
     message: "Post created successfully",
-    data: "result",
+    data: result,
   });
 });
 const getAllPost = catchAsync(async (req, res) => {
-  const result = await postService.getAllPostFromDB();
-  if (!result || (Array.isArray(result) && result.length === 0)) {
-    return sendResponse(res, {
-      statusCode: httpStatus.NOT_FOUND,
-      success: false,
-      message: "No data found",
-      data: [],
-    });
-  }
+  const result = await postService.getAllPostFromDB(req.query as IPostQuery); // Cast req.query
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
@@ -30,6 +23,7 @@ const getAllPost = catchAsync(async (req, res) => {
     data: result,
   });
 });
+
 const getSinglePost = catchAsync(async (req, res) => {
   const result = await postService.getSinglePostFromDB(req.params.id);
   if (!result || (Array.isArray(result) && result.length === 0)) {

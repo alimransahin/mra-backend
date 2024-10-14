@@ -12,3 +12,11 @@ export type TPost = {
   isPremium: boolean;
   isDeleted: boolean;
 };
+
+export interface IPostQuery {
+  search?: string;
+  category?: string;
+  isPremium?: string;
+  sortBy?: string;
+  sortOrder?: "asc" | "desc";
+}

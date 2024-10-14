@@ -36,7 +36,7 @@ const userSchema = new Schema<TUser>(
     },
     profilePicture: {
       type: String,
-      default: "",
+      default: "https://i.ibb.co.com/xSVjw8w/Default-pfp-svg.png",
     },
 
     following: [{ type: Schema.Types.ObjectId, ref: "user", required: false }],

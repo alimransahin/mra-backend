@@ -3,24 +3,16 @@ import catchAsync from "../utils/catchAsync";
 import sendResponse from "../utils/sendResponse";
 import { authService } from "./auth.service";
 import config from "../../config";
-import { User } from "../user/user.model";
 
 // sign up
 const signUp = catchAsync(async (req, res) => {
   const result = await authService.signUp(req.body);
-  const { refreshToken, accessToken } = result;
-  res.cookie("refreshToken", refreshToken, {
-    httpOnly: true,
-    secure: config.node_env === "production",
-  });
+
   sendResponse(res, {
     statusCode: httpStatus.CREATED,
     success: true,
     message: "User registered successfully",
-    data: {
-      accessToken,
-      refreshToken,
-    },
+    data: result,
   });
 });
 

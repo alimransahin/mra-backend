@@ -15,31 +15,7 @@ const signUp = async (payload: TUser): Promise<any> => {
     throw new AppError(httpStatus.CONFLICT, "This Email Already Exists!");
   }
   const newUser = await User.create(payload);
-
-  const jwtPayload = {
-    _id: newUser._id,
-    name: newUser.name,
-    email: newUser.email,
-    role: newUser.role,
-    isBlock: newUser.isBlock,
-  };
-
-  const accessToken = createToken(
-    jwtPayload,
-    config.jwt_access_secret as string,
-    config.jwt_access_expire_in as string
-  );
-
-  const refreshToken = createToken(
-    jwtPayload,
-    config.jwt_refresh_secret as string,
-    config.jwt_refresh_expire_in as string
-  );
-
-  return {
-    accessToken,
-    refreshToken,
-  };
+  return newUser;
 };
 
 // sign in
@@ -118,6 +94,7 @@ const forgetPassword = async (email: string) => {
     "10m"
   );
   const resetUILink = `${config.reset_ui_link}/reset-password?email=${user.email}&token=${resetToken}`;
+  console.log(resetUILink);
   sentEmail(user.email, resetUILink);
 };
 
