@@ -32,22 +32,27 @@ const getAllPostFromDB = async (query: IPostQuery) => {
   return await Post.find(filter).populate({
     path: "user",
     model: "user",
-
     select: "-__v",
   });
 };
 
 const getSinglePostFromDB = async (id: string) => {
-  const result = await Post.findOne({ _id: id }).populate({
-    path: "comments",
-    model: "Comment",
-    populate: {
-      path: "userId",
+  const result = await Post.findOne({ _id: id })
+    .populate({
+      path: "comments",
+      model: "Comment",
+      populate: {
+        path: "userId",
+        model: "user",
+        select: "name profilePicture",
+      },
+      select: "-__v -postId",
+    })
+    .populate({
+      path: "user",
       model: "user",
-      select: "name profilePicture",
-    },
-    select: "-__v -postId",
-  });
+      select: "-__v",
+    });
   return result;
 };
 const updatePostIntoDB = async (id: string, payload: Partial<TPost>) => {
