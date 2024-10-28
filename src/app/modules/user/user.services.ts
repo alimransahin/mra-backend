@@ -162,11 +162,10 @@ const makePayment = async (req: any, res: any) => {
     customerEmail: result?.email,
     customerPhone: result?.phone,
     customerAddress: result?.address,
+    userId,
   };
 
   const paymentSession = await initialPayment(paymentData);
-  result.isVerified = true;
-  await result.save();
   return paymentSession;
 };
 

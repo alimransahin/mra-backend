@@ -7,9 +7,9 @@ export const initialPayment = async (paymentData: any) => {
       store_id: config.store_id,
       signature_key: config.signature_key,
       tran_id: paymentData.transactionId,
-      success_url: paymentData.success_url,
-      fail_url: paymentData.fail_url,
-      cancel_url: paymentData.cancel_url,
+      success_url: `https://mra-six.vercel.app/payment?transactionId=${paymentData.transactionId}&status=success&userId=${paymentData.userId}`,
+      fail_url: `https://mra-six.vercel.app/`,
+      cancel_url: "https://mra-six.vercel.app/",
       amount: paymentData.amount,
       currency: "BDT",
       desc: "Merchant Registration Payment",
@@ -34,4 +34,15 @@ export const initialPayment = async (paymentData: any) => {
       error.response?.data?.message || "Payment initialization failed"
     );
   }
+};
+export const varifyPayment = async (transactionId: string) => {
+  const response = await axios.get(config.payment_verification_url!, {
+    params: {
+      store_id: config.store_id,
+      signature_key: config.signature_key,
+      type: "json",
+      request_id: transactionId,
+    },
+  });
+  return response.data;
 };
